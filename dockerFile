@@ -1,0 +1,8 @@
+FROM mcr.microsoft.com/windows/servercore:1809
+	
+COPY ["catch-kill-signal/bin/Debug/", "C:/catch-kill-signal/"]
+
+RUN reg add hklm\system\currentcontrolset\services\cexecsvc /v ProcessShutdownTimeoutSeconds /t REG_DWORD /d 7200  
+RUN reg add hklm\system\currentcontrolset\control /v WaitToKillServiceTimeout /t REG_SZ /d 7200000 /f
+
+ENTRYPOINT C:/catch-kill-signal/catch-kill-signal.exe
